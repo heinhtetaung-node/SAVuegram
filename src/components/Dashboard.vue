@@ -160,6 +160,15 @@
                 }).catch(err => {
                     console.log(err)
                 })
+
+                // adding child value
+                const postDoc = fb.postsCollection.doc(postId);
+                var comRef = postDoc.collection('com');
+                comRef.add({
+                    createdOn: new Date(),
+                    text: this.comment.content,
+                    userid: this.currentUser.uid
+                });
             },
             likePost(postId, postLikes) {
                 let docId = `${this.currentUser.uid}_${postId}`

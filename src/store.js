@@ -35,6 +35,28 @@ fb.auth.onAuthStateChanged(user => {
 
                 querySnapshot.forEach(doc => {
                     let post = doc.data()
+
+
+                    // getting child data
+                    // console.log(post);
+                    const postDoc = fb.postsCollection.doc(doc.id);
+                    // console.log(postDoc);
+                    var comRef = postDoc.collection('com');
+                    // console.log(comRef);
+                    comRef.orderBy('createdOn', 'desc').onSnapshot(querySnapshot1 => {
+                        querySnapshot1.forEach(doc1 => {
+                            let com = doc1.data()
+                            console.log(com);
+                        });
+                    });
+
+                    // getting datas from join table with foreign key
+                    fb.usersCollection.doc(post.userId).onSnapshot(doc => {
+                        let user = doc.data();
+                        console.log(user);
+                    });
+        
+
                     post.id = doc.id
                     postsArray.push(post)
                 })
